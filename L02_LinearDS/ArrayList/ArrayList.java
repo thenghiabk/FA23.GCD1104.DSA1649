@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import java.util.Scanner;
 
-public class ArrayList<E> implements List<E> {
+public class ArrayList<E> implements AbstractList<E> {
     private static final int DEFAULT_CAPACITY = 4;
     private E[] elements;
     private int size;
@@ -17,7 +17,6 @@ public class ArrayList<E> implements List<E> {
     public boolean add( E element ) {
         if ( size == elements.length ) {
             elements = Arrays.copyOf( elements, elements.length * 2 );
-            ;
         }
         elements[ size++ ] = element;
         return true;
@@ -28,7 +27,6 @@ public class ArrayList<E> implements List<E> {
                 + index + " out of " + size );
         if ( size == elements.length ) {
             elements = Arrays.copyOf( elements, elements.length * 2 );
-            ;
         }
         // shifts all elements to the right to accommodate the new element.
         for ( int i = size; i >= index + 1; i-- ) {
@@ -41,22 +39,19 @@ public class ArrayList<E> implements List<E> {
     public E get( int index ) {
         if ( index < 0 || index >= size ) throw new IndexOutOfBoundsException( "Index out of bound:"
                 + index + " out of " + size );
-        return getElement( index );
-    }
-    private E getElement( int index ) {
-        return (E) elements[ index ];
+        return elements[ index ];
     }
     public E set( int index, E element ) {
         if ( index < 0 || index >= size ) throw new IndexOutOfBoundsException( "Index out of bound:"
                 + index + " out of " + size );
-        E oldElement = getElement( index );
+        E oldElement = elements[ index ];
         elements[ index ] = element;
         return oldElement;
     }
     public E remove( int index ) {
         if ( index < 0 || index >= size ) throw new IndexOutOfBoundsException( "Index out of bound:"
                 + index + " out of " + size );
-        E removedElement = getElement( index );
+        E removedElement = elements[ index ];
 
         for ( int i = index; i < size - 1; i++ ) {
             elements[ i ] = elements[ i + 1 ];
@@ -106,7 +101,7 @@ public class ArrayList<E> implements List<E> {
 
             @Override
             public E next( ) {
-                E element = getElement( index );
+                E element = elements[ index ];
                 index++;
                 return element;
             }
@@ -118,9 +113,9 @@ public class ArrayList<E> implements List<E> {
     }
 }
 
-class Student {
+class Person {
     private String name;
-    public Student( String name ) {
+    public Person( String name ) {
         this.name = name;
     }
     public String getName( ) {
@@ -136,16 +131,16 @@ class Student {
     @Override
     public boolean equals( Object o ) {
         if ( this == o ) return true;
-        if ( !( o instanceof Student ) ) return false;
-        Student student = (Student) o;
-        return name == student.name;
+        if ( !( o instanceof Person ) ) return false;
+        Person person = (Person) o;
+        return name == person.name;
     }
 }
 
 class ArrayListTest {
     public static void main( String[] args ) {
         /**
-         * Integer ArrayList Demo
+         * Integer ArrayList
          * */
         ArrayList<Integer> myIntArrayList = new ArrayList<>( );
         myIntArrayList.add( 10 );
@@ -191,19 +186,21 @@ class ArrayListTest {
         System.out.println( "Index of `" + input + "` is " + famousPersons.indexOf( input ) );
 
         /**
-         * Object ArrayList Demo
+         * Object ArrayList
          * */
-        ArrayList<Student> studentList = new ArrayList<>( );
-        studentList.add( new Student( "John" ) );
-        studentList.add( new Student( "David" ) );
-        studentList.add( new Student( "Lucy" ) );
-        studentList.add( new Student( "Ben" ) );
-        System.out.println( studentList );
-        System.out.println( "Index of `Ben` is " + studentList.indexOf( new Student( "Ben" ) ) );
+        ArrayList<Person> persons = new ArrayList<>( );
+        persons.add( new Person( "Elon Musk" ) );
+        persons.add( new Person( "Cristiano Ronaldo" ) );
+        persons.add( new Person( "Lionel Messi" ) );
+        persons.add( new Person( "Mark Zuckerberg" ) );
+        persons.add( new Person( "Dwayne Johnson" ) );
+        persons.add( new Person( "Bill Gates" ) );
+        System.out.println( persons );
+        System.out.println( "Index of `Mark Zuckerberg` is " + persons.indexOf( new Person( "Mark Zuckerberg" ) ) );
 
-        Iterator<Student> myIntIterator = studentList.iterator( );
-        while ( myIntIterator.hasNext( ) ) {
-            System.out.println( myIntIterator.next( ) );
+        Iterator<Person> intIterator = persons.iterator( );
+        while ( intIterator.hasNext( ) ) {
+            System.out.println( intIterator.next( ) );
         }
     }
 }
