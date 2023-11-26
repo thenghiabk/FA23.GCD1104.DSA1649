@@ -31,7 +31,7 @@ public class QueueEnhanced<E> implements AbstractQueue<E> {
             throw new NoSuchElementException( );
         }
         E element = head.element;
-        if ( size == 1 ) {
+        if ( head == tail ) { // or size == 1
             head = null;
             tail = null;
         } else {
