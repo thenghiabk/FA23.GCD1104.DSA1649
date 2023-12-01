@@ -11,25 +11,17 @@ public class MazeWithAllPaths {
         //         { true, true, true }
         // };
 
-        // boolean[][] board = {
-        //         { true, true, true, true },
-        //         { true, true, true, true },
-        //         { true, true, true, true }
-        // };
-
-        // board with restrictions
         boolean[][] board = {
-                { true, true, true, false, true, true, true },
-                { false, false, true, false, true, false, true },
-                { true, true, true, true, true, true, true },
-                { true, false, false, false, false, false, false },
-                { true, true, true, true, true, true, true }
+                { true, true, true, true },
+                { true, true, true, true },
+                { true, true, true, true }
         };
 
-        allPaths( "", board, 0, 0 );
 
-        // int[][] path = new int[ board.length ][ board[ 0 ].length ];
-        // allPathsPrinted( "", board, 0, 0, path, 1 );
+        // allPaths( "", board, 0, 0 );
+
+        int[][] path = new int[ board.length ][ board[ 0 ].length ];
+        allPathsPrinted( "", board, 0, 0, path, 1 );
 
     }
 
@@ -75,7 +67,7 @@ public class MazeWithAllPaths {
         // that were made by the function
         maze[ r ][ c ] = true;
     }
-    
+
     private static void allPathsPrinted( String p, boolean[][] maze, int r, int c, int[][] path, int step ) {
 
         // reach the target

@@ -1,71 +1,69 @@
 package fgw.L03_Recursion_Backtracking.Backtracking;
 
-import java.util.HashMap;
-
 public class NQueens {
-    public static final int NUMBER = 4;
-    public boolean[] col, leftDiagonal, rightDiagonal;
-    public boolean[][] board;
-    public int count;
-    NQueens( ) {
-        col = new boolean[ NUMBER ];
-        leftDiagonal = new boolean[ 2 * NUMBER - 1 ];
-        rightDiagonal = new boolean[ 2 * NUMBER - 1 ];
-        board = new boolean[ NUMBER ][ NUMBER ];
-        count = 0;
-        init( );
+    public static void main( String[] args ) {
+        int n = 4;
+        boolean[][] board = new boolean[ n ][ n ];
+        System.out.println( queens( board, 0 ) );
+
     }
-    private void init( ) {
-        for ( int i = 0; i < col.length; i++ ) {
-            col[ i ] = true;
+
+    static int queens( boolean[][] board, int row ) {
+        if ( row == board.length ) {
+            display( board );
+            System.out.println( );
+            return 1;
         }
-        for ( int j = 0; j < leftDiagonal.length; j++ ) {
-            leftDiagonal[ j ] = true;
-            rightDiagonal[ j ] = true;
+        int count = 0;
+        // placing the queen and checking for every row and col
+        for ( int col = 0; col < board.length; col++ ) {
+            // place the queen if it is safe
+            if ( isSafe( board, row, col ) ) {
+                board[ row ][ col ] = true;
+                count += queens( board, row + 1 );
+                board[ row ][ col ] = false;
+            }
         }
+        return count;
     }
-    public void printSolution( ) {
-        for ( int i = 0; i < board.length; i++ ) {
-            for ( int j = 0; j < board.length; j++ ) {
-                if ( !board[ i ][ j ] ) {
-                    System.out.print( '-' );
+    private static boolean isSafe( boolean[][] board, int row, int col ) {
+        // check vertical rows on the same col
+        for ( int i = 0; i < row; i++ ) {
+            if ( board[ i ][ col ] ) {
+                return false;
+            }
+        }
+
+        // check diagonal left
+        int maxLeft = Math.min( row, col );
+        for ( int i = 1; i <= maxLeft; i++ ) { // go backward one diagonal cell and check
+            if ( board[ row - i ][ col - i ] ) {
+                return false;
+            }
+        }
+
+        // check diagonal left
+        int maxRight = Math.min( row, board.length - col - 1 );
+        for ( int i = 1; i <= maxRight; i++ ) { // go forward one diagonal cell and check
+            if ( board[ row - i ][ col + i ] ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static void display( boolean[][] board ) {
+        for ( boolean[] row : board ) {
+            for ( boolean element : row ) {
+                if ( element ) {
+                    System.out.print( "Q " );
                 } else {
-                    System.out.print( '*' );
+                    System.out.print( "X " );
                 }
             }
             System.out.println( );
         }
-        System.out.println( );
-    }
-    public void test( int i ) {
-        for ( int j = 0; j < board.length; j++ ) {
-            if ( isFree( i, j ) ) {
-                board[ i ][ j ] = true;
-                col[ j ] = leftDiagonal[ j - i + board.length - 1 ] = rightDiagonal[ i + j ] = false;
-                if ( i == board.length - 1 ) {
-                    printSolution( );
-                    count++;
-                } else {
-                    test( i + 1 );
-                }
-                board[ i ][ j ] = false;
-                col[ j ] = leftDiagonal[ j - i + board.length - 1 ] = rightDiagonal[ i + j ] = true;
-
-            }
-        }
-    }
-
-    private boolean isFree( int i, int j ) {
-        return col[ j ] && leftDiagonal[ j - i + board.length - 1 ] && rightDiagonal[ i + j ];
-    }
-
-}
-
-class NQueensTest {
-    public static void main( String[] args ) {
-        NQueens myQueens = new NQueens( );
-        myQueens.test( 0 );
-        System.out.println( "There is " + myQueens.count + " solutions" );
 
     }
 }
